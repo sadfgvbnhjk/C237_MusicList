@@ -30,6 +30,7 @@
                 <p><b>Music Link:</b><br>
                     <%= music.link %>
                 </p>
+                <a href="/deletemusic/<%= music.music_id %>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this song?')">Delete</a>
             </div>
             <% } else { %>
                 <p>No music found.</p>
