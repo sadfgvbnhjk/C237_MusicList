@@ -10,28 +10,30 @@
 
     <div class="container">
         <h1 class="mt-5">User list</h1>
-        <% if (user) { %> <!-- Check if user data exists -->
-            <div>
-                <p><b>Username:</b><br>
-                    <%= user.username %>
-                </p>
-                <p><b>Email:</b><br>
-                    <%= user.email%>
-                </p>
-                <p><b>Password:</b><br>
-                    <%= user.password %>
-                </p>
-                <p><b>Address:</b><br>
-                    <%= user.address %>
-                </p>
-                <p><b>Role:</b><br>
-                    <%= user.role%>
-                </p>
-            </div>
-            <% } else { %>
-                <p>No user found.</p>
-                <% } %>
-                    <a href="/">Back</a>
+        <% if (userList && userList.length> 0) { %>
+            <% userList.forEach(function(user) { %> <!-- Check if user data exists -->
+                <div>
+                    <p><b>Username:</b><br>
+                        <%= user.username %>
+                    </p>
+                    <p><b>Email:</b><br>
+                        <%= user.email%>
+                    </p>
+                    <p><b>Password:</b><br>
+                        <%= user.password %>
+                    </p>
+                    <p><b>Address:</b><br>
+                        <%= user.address %>
+                    </p>
+                    <p><b>Role:</b><br>
+                        <%= user.role%>
+                    </p>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>No user found.</p>
+        <% } %>
+        <a href="/">Back</a>
     </div>
 
 </body>
