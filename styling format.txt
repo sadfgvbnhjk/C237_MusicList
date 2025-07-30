@@ -1,23 +1,13 @@
 <div class="row row-cols-1 row-cols-md-3 g-4 p-5 justify-content-center">
     <!-- Card Module -->
     <div class="card text-center">
-        <img class="card-img-top mx-auto d-block" src="image.png" style="width: 100%;">
+        <img class="card-img-top mx-auto d-block" src="${music[0].src}" style="width:100%;">
         <div class="card-body">
-            <h4 class="card-title">Title</h4>
-            <p class="card-text">Description</p>
+            <h3 class="card-title">${music[0].title}</h3>
+            <h4 class="card-text">${music[0].artist}</h4>
             <div class="divbtn">
-                <a href="/"><button type="submit" class="btn btn-outline-dark btn-dark" style="color: white;">Button Text</button></a>
-            </div>
-        </div>
-    </div>
-    <!-- Card Module -->
-    <div class="card text-center">
-        <img class="card-img-top mx-auto d-block" src="image.png" style="width: 100%;">
-        <div class="card-body">
-            <h4 class="card-title">Title</h4>
-            <p class="card-text">Description</p>
-            <div class="divbtn">
-                <a href="/"><button type="submit" class="btn btn-outline-dark btn-dark" style="color: white;">Button Text</button></a>
+                <a href="${music[0].video}" target="_blank"><button type="submit" class="btn btn-outline-dark btn-dark" style="color: white;">Listen on Youtube</button></a>
+                <a href="${music[0].video + "&t=" + music[0].prv + "s"}" target="_blank"><button type="submit" class="btn btn-outline-dark btn-dark" style="color: white;">Preview</button></a>
             </div>
         </div>
     </div>
