@@ -1,1 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Music</title>
+</head>
+<body>
+    <h1>Are you sure you want to delete this song?</h1>
 
+    <p><strong>Title:</strong> <%= music.title %></p>
+    <p><strong>Artist:</strong> <%= music.artist %></p>
+
+    <form action="/deletemusic/<%= music.music_id %>" method="POST">
+        <button type="submit">Yes, Delete</button>
+        <a href="/musiclist">Cancel</a>
+    </form>
+</body>
+</html>
