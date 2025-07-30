@@ -12,24 +12,24 @@
         <br>
         <div>
           <% if (music) { %> 
-            <form action="/updatemusic/<%= music.music_id %>" method="POST">
+            <form action="/updatemusic/<%= music_list.music_id %>" method="POST">
                 <label for="title">Music Title:</label><br>
                 <input type="text" id="title" name="title" value = "<%= music.title %>" required><br><br>
 
                 <label for="artist">Artist:</label><br>
-                <input type="text" id="artist" name="artist" value = "<%= music.atrist %>" required><br><br>
+                <input type="text" id="artist" name="artist" value = "<%= music_list.atrist %>" required><br><br>
 
                 <label for="genre">Genre:</label><br>
-                <input type="text" id="genre" name="genre" value = "<%= product.genre %>" required><br><br>
+                <input type="text" id="genre" name="genre" value = "<%= music_list.genre %>" required><br><br>
 
                 <label for="genre">Language:</label><br>
-                <input type="text" id="language" name="language" value = "<%= product.language %>" required><br><br>
+                <input type="text" id="language" name="language" value = "<%= music_list.language %>" required><br><br>
 
                 <label for="image">Music Image:</label><br>
-                <img src = "<%= music.image %>" width="20%"><br><br>
+                <img src = "<%= music_list.image %>" width="20%"><br><br>
 
                 <label for="link">Music Link:</label><br>
-                <input type="text" id="link" name="link" value = "<%= music.link %>" required><br><br>
+                <input type="text" id="link" name="link" value = "<%= music_list.link %>" required><br><br>
 
                 <button type="submit">Update Product</button>
             </form>
