@@ -246,6 +246,16 @@ app.get('/updatemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
     })
 });
 
+app.get('/musiclist', (req, res) => {
+    const sql = 'SELECT * FROM music_list';
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.error('Database query error:', error.message);
+            return res.status(500).send('Error retrieving music list');
+        }
+        res.render('musicpage', { music_list: results });
+    });
+});
 // Show delete confirmation page
 app.get('/deletemusic/:id/confirm', checkAuthenticated, checkAdmin, (req, res) => {
     const music_id = req.params.id;
