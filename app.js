@@ -197,7 +197,7 @@ app.get('/musicpage', (req,res) => {
         // Render HTML page with data
         res.render('musicpage', {music_list: results, user: req.session.user});
     });
-})
+});
 
 // Search functionality
 app.post('/search', (req,res) => {
@@ -214,6 +214,7 @@ app.post('/search', (req,res) => {
         res.render('search', {music_list: results, user: req.session.user});
     });
 });
+
 
 app.get('/addmusic', checkAuthenticated, checkAdmin, (req, res) => {
     res.render('addmusic', {user: req.session.user } ); 
@@ -238,7 +239,7 @@ app.post('/addmusic', upload.single('image'),  (req, res) => {
             res.status(500).send('Error adding music');
         } else {
             // Send a success response
-            res.redirect('/');
+            res.redirect('/musicpage');
         }
     });
 });
@@ -257,7 +258,7 @@ app.get('/updatemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
         if (results.length > 0) {
             res.render('updatemusic', {music: results[0]});
         } else {
-            res.status(404).send('Product not found');
+            res.status(404).send('Music not found');
         }
     })
 });
@@ -275,18 +276,7 @@ app.post('/deletemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
         }
         console.log("Deleted successfully, redirecting...");
         req.flash('success', 'Music deleted successfully.');
-        res.redirect('/musiclist');
-    });
-});
-
-app.get('/musiclist', (req, res) => {
-    const sql = 'SELECT * FROM music_list';
-    connection.query(sql, (error, results) => {
-        if (error) {
-            console.error('Database query error:', error.message);
-            return res.status(500).send('Error retrieving music list');
-        }
-        res.render('musicpage', { music_list: results });
+        res.redirect('/musicpage');
     });
 });
 
@@ -298,7 +288,7 @@ app.get('/deletemusic/:id/confirm', checkAuthenticated, checkAdmin, (req, res) =
         if (err || results.length === 0) {
             return res.status(404).send('Music not found');
         }
-        res.render('delete', { music: results[0] }); 
+        res.render('delete', { music: results[0], user: req.session.user}); 
     });
 });
 
@@ -312,7 +302,7 @@ app.post('/deletemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
         } else {
             req.flash('success', 'Music deleted successfully.');
         }
-        res.redirect('/musiclist'); 
+        res.redirect('/musicpage'); 
     });
 });
 
