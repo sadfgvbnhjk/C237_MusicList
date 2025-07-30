@@ -10,23 +10,23 @@
 
     <div class="container">
         <h1 class="mt-5">User list</h1>
-        <% if (userList && userList.length> 0) { %>
-            <% userList.forEach(function(user) { %> <!-- Check if user data exists -->
-                <div>
+        <% if (users && users.length > 0) { %>
+            <% users.forEach(function(users) { %> <!-- Check if user data exists -->
+                <div class="mb-4 border p-3 rounded">
                     <p><b>Username:</b><br>
-                        <%= user.username %>
+                        <%= users.username %>
                     </p>
                     <p><b>Email:</b><br>
-                        <%= user.email%>
+                        <%= users.email%>
                     </p>
                     <p><b>Password:</b><br>
-                        <%= user.password %>
+                        <%= users.password %>
                     </p>
                     <p><b>Address:</b><br>
-                        <%= user.address %>
+                        <%= users.address %>
                     </p>
                     <p><b>Role:</b><br>
-                        <%= user.role%>
+                        <%= users.role%>
                     </p>
                 </div>
             <% }); %>
@@ -39,3 +39,4 @@
 </body>
 
 </html>
+
