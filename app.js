@@ -186,24 +186,16 @@ app.get('/logout', (req, res) => {
 });
 
 // music_id in connection.query( sql , [music_id], (error, results) has 3 dots at the m
-app.get('/musicpage/:id', (req,res) => {
-    //
-    const music_id = req.params.id;
-    const sql = 'SELECT * FROM music WHERE music_id = ?';
-    //
-    connection.query( sql , [music_id], (error, results) => {
+app.get('/musicpage', (req,res) => {
+    const sql = 'SELECT * FROM music_list';
+    // Fetch data from MySQL
+    connection.query( sql , (error, results) => {
         if (error) {
-            console.error('Database querry error:', error.message);
-            return res.status(500).send('Error Retrieving product by ID');
+            console.error('Database query error:', error.message);
+            return res.status(500).send('Error Retrieving music list');
         }
-        //
-        if (results.length > 0) {
-            //
-            res.render('music', {music: results[0] });
-        } else {
-            //
-            res.status(404).send('music not found');
-        }
+        // Render HTML page with data
+        res.render('musicpage', {music_list: results});
     });
 });
 
