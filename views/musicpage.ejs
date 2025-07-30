@@ -29,38 +29,41 @@
                 </div>
         </div>
 </nav>
-
 <div class="container">
-        <h1 class="mt-5">Music Page</h1>
-        <% if (music_list && music_list.length> 0) { %>
-            <% music_list.forEach(function(music_list) { %> <!-- Check if music data exists -->
-                <div>
-                    <p><b>Music Title:</b><br>
-                        <%= music_list.title %>
-                    </p>
-                    <p><b>Artist:</b><br>
-                        <%= music_list.artist %>
-                    </p>
-                    <p><b>Genre:</b><br>
-                        <%= music_list.genre %>
-                    </p>
-                    <p><b>Language:</b><br>
-                        <%= music_list.language %>
-                    </p>
-                    <p><b>Music Image:</b><br>
-                        <img src="<%= music_list.image %>" width="20%">
-                    </p>
-                    <p><b>Music Link:</b><br>
-                        <%= music_list.link %>
-                    </p>
-                </div>
-            <% }); %>
-        <% } else { %>
-            <p>No music found.</p>
-        <% } %>
-        <a href="/">Back</a>
-    </div>
-
+    <h1 class="mt-5">Music Page</h1>
+    <% if (music_list && music_list.length > 0) { %>
+        <% music_list.forEach(function(music_list) { %>
+            <div class="mb-4 border p-3 rounded">
+                <p><b>Music Title:</b><br>
+                    <%= music_list.title %>
+                </p>
+                <p><b>Artist:</b><br>
+                    <%= music_list.artist %>
+                </p>
+                <p><b>Genre:</b><br>
+                    <%= music_list.genre %>
+                </p>
+                <p><b>Language:</b><br>
+                    <%= music_list.language %>
+                </p>
+                <p><b>Music Image:</b><br>
+                    <% if (music_list.image) { %>
+                        <img src="/images/<%= music_list.image %>" width="20%">
+                    <% } else { %>
+                        No image available
+                    <% } %>
+                </p>
+                <p><b>Music Link:</b><br>
+                    <a href="<%= music_list.link %>" target="_blank"><%= music_list.link %></a>
+                </p>
+                <a href="/deletemusic/<%= music_list.music_id %>/confirm" class="btn btn-danger btn-sm">Delete</a>
+                <a href="/updatemusic/<%= music_list.music_id %>" class="btn btn-primary btn-sm">Edit</a>
+            </div>
+        <% }); %>
+    <% } else { %>
+        <p>No music found.</p>
+    <% } %>
+    <a href="/">Back</a>
+</div>
 </body>
 
-</html>
