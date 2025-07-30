@@ -19,11 +19,15 @@
             </button>
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav">
+                <% if (user && user.role === 'admin') { %>
+                    <ul></ul>
                     <li class="nav-item">
-                        <% if (user && user.role==='admin' ) { %>
-                            <a href="/admin" class="btn btn-primary">Admin Dashboard</a>
-                            <a class="nav-link" href="/addmusic">Add new music</a>
-                            <% } %>
+                        <a href="/admin" class="nav-link">Admin Dashboard</a>
+                        </li>
+                        <li class="nav-item"></li>
+                        <a class="nav-link" href="/addmusic">Add new music</a>
+                    </li>
+                    <% } %>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/musicpage">music page</a>
