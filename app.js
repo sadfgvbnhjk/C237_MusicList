@@ -254,7 +254,7 @@ app.get('/deletemusic/:id/confirm', checkAuthenticated, checkAdmin, (req, res) =
         if (err || results.length === 0) {
             return res.status(404).send('Music not found');
         }
-        res.render('delete', { music: results[0] }); // render delete.ejs
+        res.render('delete', { music: results[0] }); 
     });
 });
 
