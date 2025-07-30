@@ -9,6 +9,12 @@
     <p><strong>Title:</strong> <%= music.title %></p>
     <p><strong>Artist:</strong> <%= music.artist %></p>
 
+    <% if (music.image) { %>
+        <p><strong>Thumbnail:</strong><br>
+            <img src="/images/<%= music.image %>" width="200">
+        </p>
+    <% } %>
+
     <form action="/deletemusic/<%= music.music_id %>" method="POST">
         <button type="submit">Yes, Delete</button>
         <a href="/musiclist">Cancel</a>
