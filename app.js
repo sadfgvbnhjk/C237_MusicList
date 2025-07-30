@@ -227,9 +227,21 @@ app.post('/addmusic', upload.single('image'),  (req, res) => {
     });
 });
 
-app.get('/updatemusic/:id', (req, res) => {
+//delete confirmation page
+app.get('/deletemusic/:id/confirm', checkAuthenticated, checkAdmin, (req, res) => {
     const music_id = req.params.id;
     const sql = 'SELECT * FROM music WHERE music_id = ?';
+    connection.query(sql, [music_id], (err, results) => {
+        if (err || results.length === 0) {
+            return res.status(404).send('Music not found');
+        }
+        res.render('delete', { music: results[0] }); 
+    });
+});
+
+app.get('/updatemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
+    const music_id = req.params.id;
+    const sql = 'SELECT * FROM music_list WHERE music_id = ?';
     connection.query( sql , [music_id], (error, results) => {
         if (error) {
             console.error('Database query error:', error.message);
@@ -244,43 +256,36 @@ app.get('/updatemusic/:id', (req, res) => {
     })
 });
 
-//delete confirmation page
-app.get('/deletemusic/:id/confirm', checkAuthenticated, checkAdmin, (req, res) => {
+// Delete music by ID
+app.get('/deletemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
     const music_id = req.params.id;
-    const sql = 'SELECT * FROM music WHERE music_id = ?';
-    connection.query(sql, [music_id], (err, results) => {
-        if (err || results.length === 0) {
-            return res.status(404).send('Music not found');
-        }
-        res.render('delete', { music: results[0] }); 
-    });
-});
 
-//delete
-app.post('/deletemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
-    const music_id = req.params.id;
-    const sql = 'DELETE FROM music WHERE music_id = ?';
-    connection.query(sql, [music_id], (err, result) => {
+    connection.query('DELETE FROM music_list WHERE music_id = ?', [music_id], (err, result) => {
         if (err) {
-            req.flash('error', 'Failed to delete music.');
+            console.error('Error deleting music:', err);
+            res.status(500).send('Error deleting music');
         } else {
-            req.flash('success', 'Music deleted successfully.');
+            res.redirect('/musicpage');
         }
-        res.redirect('/musiclist');
     });
 });
 
 app.post('/updatemusic/:id', (req, res) => {
     const music_id = req.params.id;
-    const { title, artist, genre, language, image, link } = req.body;
-    const sql = 'UPDATE music SET title = ?, artist = ?, genre = ?, language = ?, image = ?, link = ? WHERE music_id = ?';
+    const { title, artist, genre, language, link } = req.body;
+    let image  = req.body.currentImage; //retrieve current image filename
+    if (req.file) { //if new image is uploaded
+        image = req.file.filename; // set image to be new image filename
+    }
 
-    connection.query( sql, [title, artist, language, image, link, music_id], (error, results) => {
+    const sql = 'UPDATE music_list SET title = ?, artist = ?, genre = ?, language = ?, image = ?, link = ? WHERE music_id = ?';
+
+    connection.query( sql, [title, artist, genre, language, image, link, music_id], (error, results) => {
         if (error) {
             console.error('Error updating music:', error);
             return res.status(500).send('Error updating music');
         } else {
-            res.redirect('/');
+            res.redirect('/musicpage');
         }
     });
 });
