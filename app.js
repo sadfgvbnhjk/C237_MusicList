@@ -246,6 +246,23 @@ app.get('/updatemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
     })
 });
 
+app.post('/deletemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
+    const music_id = req.params.id;
+    console.log("Delete request received for id:", music_id);  
+
+    const sql = 'DELETE FROM music_list WHERE music_id = ?';
+    connection.query(sql, [music_id], (err, result) => {
+        if (err) {
+            console.log("Delete error:", err);
+            req.flash('error', 'Failed to delete music.');
+            return res.status(500).send('Error deleting music');
+        }
+        console.log("Deleted successfully, redirecting...");
+        req.flash('success', 'Music deleted successfully.');
+        res.redirect('/musiclist');
+    });
+});
+
 app.get('/musiclist', (req, res) => {
     const sql = 'SELECT * FROM music_list';
     connection.query(sql, (error, results) => {
@@ -256,6 +273,7 @@ app.get('/musiclist', (req, res) => {
         res.render('musicpage', { music_list: results });
     });
 });
+
 // Show delete confirmation page
 app.get('/deletemusic/:id/confirm', checkAuthenticated, checkAdmin, (req, res) => {
     const music_id = req.params.id;
