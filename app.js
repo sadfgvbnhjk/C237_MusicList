@@ -195,9 +195,9 @@ app.get('/musicpage', (req,res) => {
             return res.status(500).send('Error Retrieving music list');
         }
         // Render HTML page with data
-        res.render('musicpage', {music_list: results});
+        res.render('musicpage', {music_list: results, user: req.session.user});
     });
-});
+})
 
 app.get('/addmusic', checkAuthenticated, checkAdmin, (req, res) => {
     res.render('addmusic', {user: req.session.user } ); 
