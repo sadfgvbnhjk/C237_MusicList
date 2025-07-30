@@ -227,17 +227,7 @@ app.post('/addmusic', upload.single('image'),  (req, res) => {
     });
 });
 
-//delete confirmation page
-app.get('/deletemusic/:id/confirm', checkAuthenticated, checkAdmin, (req, res) => {
-    const music_id = req.params.id;
-    const sql = 'SELECT * FROM music WHERE music_id = ?';
-    connection.query(sql, [music_id], (err, results) => {
-        if (err || results.length === 0) {
-            return res.status(404).send('Music not found');
-        }
-        res.render('delete', { music: results[0] }); 
-    });
-});
+
 
 app.get('/updatemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
     const music_id = req.params.id;
@@ -256,17 +246,29 @@ app.get('/updatemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
     })
 });
 
-// Delete music by ID
-app.get('/deletemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
+// Show delete confirmation page
+app.get('/deletemusic/:id/confirm', checkAuthenticated, checkAdmin, (req, res) => {
     const music_id = req.params.id;
-
-    connection.query('DELETE FROM music_list WHERE music_id = ?', [music_id], (err, result) => {
-        if (err) {
-            console.error('Error deleting music:', err);
-            res.status(500).send('Error deleting music');
-        } else {
-            res.redirect('/musicpage');
+    const sql = 'SELECT * FROM music_list WHERE music_id = ?';
+    connection.query(sql, [music_id], (err, results) => {
+        if (err || results.length === 0) {
+            return res.status(404).send('Music not found');
         }
+        res.render('delete', { music: results[0] }); // render delete.ejs
+    });
+});
+
+// Handle actual delete 
+app.post('/deletemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
+    const music_id = req.params.id;
+    const sql = 'DELETE FROM music_list WHERE music_id = ?';
+    connection.query(sql, [music_id], (err, result) => {
+        if (err) {
+            req.flash('error', 'Failed to delete music.');
+        } else {
+            req.flash('success', 'Music deleted successfully.');
+        }
+        res.redirect('/musiclist'); 
     });
 });
 
