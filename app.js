@@ -213,7 +213,7 @@ app.post('/addmusic', upload.single('image'),  (req, res) => {
         image = null;
     }
 
-    const sql = 'INSERT INTO music (title, artist, genre, language, image, link) VALUES (?, ?, ?, ?, ?, ?)';
+    const sql = 'INSERT INTO music_list (title, artist, genre, language, image, link) VALUES (?, ?, ?, ?, ?, ?)';
     // Insert the new music into the database
     connection.query(sql , [title, artist, genre, language, image, link], (error, results) => {
         if (error) {
