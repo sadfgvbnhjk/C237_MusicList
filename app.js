@@ -276,6 +276,20 @@ app.post('/updatemusic/:id', (req, res) => {
     });
 });
 
+app.get('/userlist', (req,res) => {
+    const sql = 'SELECT * FROM user';
+    // Fetch data from MySQL
+    connection.query( sql , (error, results) => {
+        if (error) {
+            console.error('Database query error:', error.message);
+            return res.status(500).send('Error Retrieving user list');
+        }
+        // Render HTML page with data
+        res.render('userlist', {user: results});
+    });
+});
+ 
+
 // DO NOT WRITE ANY CODE BELOW THIS LINE
 
 // Start server
