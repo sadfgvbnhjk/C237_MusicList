@@ -321,7 +321,7 @@ app.post('/updatemusic/:id', (req, res) => {
 });
 
 app.get('/userlist', (req,res) => {
-    const sql = 'SELECT * FROM user';
+    const sql = 'SELECT * FROM users';
     // Fetch data from MySQL
     connection.query( sql , (error, results) => {
         if (error) {
@@ -329,7 +329,7 @@ app.get('/userlist', (req,res) => {
             return res.status(500).send('Error Retrieving user list');
         }
         // Render HTML page with data
-        res.render('userlist', {user: results});
+        res.render('userlist', {users: results});
     });
 });
  
