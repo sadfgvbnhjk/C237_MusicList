@@ -244,22 +244,31 @@ app.get('/updatemusic/:id', (req, res) => {
     })
 });
 
-// Delete music by ID
-app.get('/deletemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
+//delete confirmation page
+app.get('/deletemusic/:id/confirm', checkAuthenticated, checkAdmin, (req, res) => {
     const music_id = req.params.id;
+    const sql = 'SELECT * FROM music WHERE music_id = ?';
+    connection.query(sql, [music_id], (err, results) => {
+        if (err || results.length === 0) {
+            return res.status(404).send('Music not found');
+        }
+        res.render('delete', { music: results[0] }); 
+    });
+});
 
+//delete
+app.post('/deletemusic/:id', checkAuthenticated, checkAdmin, (req, res) => {
+    const music_id = req.params.id;
     const sql = 'DELETE FROM music WHERE music_id = ?';
     connection.query(sql, [music_id], (err, result) => {
         if (err) {
-            console.error('Error deleting music:', err.message);
             req.flash('error', 'Failed to delete music.');
         } else {
             req.flash('success', 'Music deleted successfully.');
         }
-        res.redirect('/');
+        res.redirect('/musiclist');
     });
 });
-
 
 app.post('/updatemusic/:id', (req, res) => {
     const music_id = req.params.id;
