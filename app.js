@@ -199,6 +199,22 @@ app.get('/musicpage', (req,res) => {
     });
 })
 
+// Search functionality
+app.post('/search', (req,res) => {
+    const searchTerm = `%${req.body.query}%`;
+    const sql = `SELECT * FROM music_list WHERE title LIKE ?`;
+    // Fetch data from MySQL
+    connection.query( sql , [searchTerm], (error, results) => {
+    console.log("Search results:", searchTerm); // Log the search results
+        if (error) {
+            console.error('Database query error:', error.message);
+            return res.status(500).send('Error Retrieving music list');
+        }
+        // Render HTML page with data
+        res.render('search', {music_list: results, user: req.session.user});
+    });
+});
+
 app.get('/addmusic', checkAuthenticated, checkAdmin, (req, res) => {
     res.render('addmusic', {user: req.session.user } ); 
 });
